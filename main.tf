@@ -17,3 +17,7 @@ provider "aws" {
 module "user_directory" {
   source = "./user_directory"
 }
+
+output "cognito_user_pool_name" {
+  value = module.user_directory
+}
