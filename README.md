@@ -1,7 +1,10 @@
 # 281-peer2peer-infrastructure
 
 ## Architecture Diagram
-![Diagram V1](./diagrams/281p2-InfrastructureDiagramV1.jpg "V1")
+![Architecture Diagram](./diagrams/281p2-InfrastructureDiagramV1.jpg "V1")
+
+## Sequence Diagram
+![Sequence Diagram](./diagrams/moochat-sessions-sequence.jpeg)
 
 ## Run
 ```
