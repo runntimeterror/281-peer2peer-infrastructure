@@ -25,3 +25,7 @@ module "session_service" {
 output "cognito_user_pool_name" {
   value = module.user_directory
 }
+
+output "session_service_dynamodb_table" {
+	value = module.session_service
+}
