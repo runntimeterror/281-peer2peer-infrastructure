@@ -18,6 +18,10 @@ module "user_directory" {
   source = "./user_directory"
 }
 
+module "session_service" {
+	source = "./session_service"
+}
+
 output "cognito_user_pool_name" {
   value = module.user_directory
 }
