@@ -22,6 +22,10 @@ module "session_service" {
 	source = "./session_service"
 }
 
+module "socket_service" {
+  source = "./socket_service"
+}
+
 output "cognito_user_pool_name" {
   value = module.user_directory
 }
