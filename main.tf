@@ -22,6 +22,18 @@ module "socket_service" {
   source = "./modules/socket_service"
 }
 
+module "moochat_ui" {
+  source = "./modules/moochat_ui"
+}
+
 output "cognito_user_pool_name" {
   value = module.user_directory
+}
+
+output "moochat_ui_deployment" {
+  value = module.moochat_ui
+}
+
+output "socket_service" {
+  value = module.socket_service
 }
