@@ -15,11 +15,11 @@ provider "aws" {
 }
 
 module "user_directory" {
-  source = "./user_directory"
+  source = "./modules/user_directory"
 }
 
 module "socket_service" {
-  source = "./socket_service"
+  source = "./modules/socket_service"
 }
 
 output "cognito_user_pool_name" {
