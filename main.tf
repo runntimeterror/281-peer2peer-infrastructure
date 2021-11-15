@@ -11,15 +11,11 @@ terraform {
 
 provider "aws" {
   profile = "default"
-  region = "us-west-2"
+  region = "us-east-1"
 }
 
 module "user_directory" {
   source = "./user_directory"
-}
-
-module "session_service" {
-	source = "./session_service"
 }
 
 module "socket_service" {
@@ -28,8 +24,4 @@ module "socket_service" {
 
 output "cognito_user_pool_name" {
   value = module.user_directory
-}
-
-output "session_service_dynamodb_table" {
-	value = module.session_service
 }
