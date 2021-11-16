@@ -6,6 +6,15 @@ terraform {
 		}
 	}
 
+  backend "remote" {
+    hostname = "app.terraform.io"
+    organization = "moochat"
+
+    workspaces {
+      prefix="moochat"
+    }
+  }
+
 	required_version = ">= 0.14.9"
 }
 
