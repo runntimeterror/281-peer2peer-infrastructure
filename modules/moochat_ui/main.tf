@@ -29,6 +29,7 @@ resource "aws_cloudfront_distribution" "cf_moochat_ui_cache" {
 	enabled = true
 	is_ipv6_enabled = true
 	comment = "CF Distro for User File Storage Cache"
+  default_root_object = "index.html"
 
 	default_cache_behavior {
 		allowed_methods = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
