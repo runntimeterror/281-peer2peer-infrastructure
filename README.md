@@ -10,9 +10,8 @@
 ```
 # Install Terraform
 $ aws configure # access/secret key, region...
-$ terraform workspace new [environment] # environments "dev" "prod"
-$ terraform workspace select [environment]
-$ terraform init
+$ terraform login # requires terraform cloud account
+$ terraform init -reconfigure # prevents migrating local state into cloud
 $ terraform plan # check changes
-$ terraform apply #provision aws resources
+$ terraform apply # provision aws resources
 ```
