@@ -8,6 +8,23 @@ resource "aws_elasticache_cluster" "moochat_redis_cluster" {
   port                 = 6379
 }
 
+resource "aws_ecr_repository" "moochat_ecr_repo" {
+  name = "${terraform.workspace}-moochat-socket-service"
+  image_tag_mutability = "MUTABLE"
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
+}
+
+output "moochat_ecr_repo_arn" {
+  value = resource.aws_ecr_repository.moochat_ecr_repo.arn
+}
+
+output "moochat_ecr_repo_url" {
+  value = resource.aws_ecr_repository.moochat_ecr_repo.repository_url
+}
+
 output "moochat_redis_cluster_address" {
   value = resource.aws_elasticache_cluster.moochat_redis_cluster.cluster_address
 }
