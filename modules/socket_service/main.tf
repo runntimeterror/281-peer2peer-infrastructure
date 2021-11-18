@@ -60,8 +60,8 @@ resource "aws_security_group" "sg_moochat_ecs_tasks" {
 
   ingress {
     protocol        = "tcp"
-    from_port       = 4000
-    to_port         = 4000
+    from_port       = 8000
+    to_port         = 8000
     cidr_blocks     = ["0.0.0.0/0"]
     security_groups = [aws_security_group.sg_moochat_loadbalancer.id]
   }

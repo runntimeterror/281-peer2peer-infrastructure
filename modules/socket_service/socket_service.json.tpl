@@ -8,7 +8,7 @@
       "options": {
         "awslogs-region": "us-east-1",
         "awslogs-stream-prefix": "moochat-socket-service",
-        "awslogs-group": "awslogs-moochat-socket-service"
+        "awslogs-group": "dev-awslogs-moochat-socket-service"
       }
     },
     "portMappings": [
