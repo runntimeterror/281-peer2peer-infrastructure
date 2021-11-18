@@ -174,7 +174,8 @@ resource "aws_ecs_service" "moochat_ecs_service" {
   launch_type     = "FARGATE"
 
   network_configuration {
-    security_groups  = [resource.aws_security_group.sg_moochat_ecs_tasks.id]
+    security_groups  = [resource.aws_security_group.sg_moochat_ecs_tasks.id,"sg-0b03f389b81b18623",
+    "sg-0d3fee5cb05cef4b4"]
     subnets          = data.aws_subnet_ids.default.ids
     assign_public_ip = true
   }
