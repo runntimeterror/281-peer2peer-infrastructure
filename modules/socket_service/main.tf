@@ -10,6 +10,7 @@ resource "aws_elasticache_cluster" "moochat_redis_cluster" {
   security_group_ids       = [
     "sg-0b03f389b81b18623",
     "sg-0d3fee5cb05cef4b4",
+    resource.aws_security_group.sg_moochat_ecs_tasks.id,
   ]
   snapshot_retention_limit = 0
   snapshot_window          = "05:00-06:00"
@@ -89,12 +90,17 @@ resource "aws_lb" "lb_moochat" {
 resource "aws_lb_listener" "https_forward" {
   load_balancer_arn = aws_lb.lb_moochat.arn
   port              = 80
-  protocol          = "HTTP"
+  protocol          = "HTTPS"
+  certificate_arn   = data.aws_acm_certificate.moochat_alb_certificate.arn
 
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.lb_target_group_moochat.arn
   }
+}
+
+data "aws_acm_certificate" "moochat_alb_certificate" {
+  domain = "socket.moochat.awesomepossum.dev"
 }
 
 resource "aws_lb_target_group" "lb_target_group_moochat" {
@@ -191,6 +197,10 @@ resource "aws_ecs_service" "moochat_ecs_service" {
   tags = {
     Environment = "${terraform.workspace}"
     Application = "moochat-socket-service"
+  }
+
+  lifecycle {
+    ignore_changes = [desired_count]
   }
 }
 

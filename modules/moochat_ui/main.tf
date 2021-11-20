@@ -16,6 +16,11 @@ resource "aws_s3_bucket_public_access_block" "block_all_public_access" {
   restrict_public_buckets = true
 }
 
+
+data "aws_acm_certificate" "moochat_ui_certificate" {
+  domain = "moochat.awesomepossum.dev"
+}
+
 resource "aws_cloudfront_distribution" "cf_moochat_ui_cache" {
 	origin {
 		domain_name = aws_s3_bucket.s3_moochat_ui.bucket_regional_domain_name
@@ -26,10 +31,21 @@ resource "aws_cloudfront_distribution" "cf_moochat_ui_cache" {
 		}
 	}
 
+	aliases = [
+		"moochat.awesomepossum.dev",
+		"www.moochat.awesomepossum.dev"
+	]
+
 	enabled = true
 	is_ipv6_enabled = true
 	comment = "CF Distro for User File Storage Cache"
   default_root_object = "index.html"
+
+	custom_error_response {
+		error_code = 403
+		response_code = 200
+		response_page_path = "/index.html"
+	}
 
 	default_cache_behavior {
 		allowed_methods = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
@@ -38,8 +54,8 @@ resource "aws_cloudfront_distribution" "cf_moochat_ui_cache" {
 
 		viewer_protocol_policy = "allow-all"
 		min_ttl                = 0
-    default_ttl            = 0 
-    max_ttl                = 0 
+    default_ttl            = 0
+    max_ttl                = 0
 
 		forwarded_values {
 		  query_string = false
@@ -62,7 +78,10 @@ resource "aws_cloudfront_distribution" "cf_moochat_ui_cache" {
 	}
 
 	viewer_certificate {
-	  cloudfront_default_certificate = true
+		acm_certificate_arn = data.aws_acm_certificate.moochat_ui_certificate.arn
+		minimum_protocol_version       = "TLSv1"
+	  cloudfront_default_certificate = false
+		ssl_support_method             = "sni-only"
 	}
 }
 
@@ -73,7 +92,7 @@ resource "aws_cloudfront_origin_access_identity" "cf_moochat_ui_oai" {
 data "aws_iam_policy_document" "moochat_ui_s3_policy" {
 	statement {
 		actions = ["s3:GetObject"]
-		resources = ["${aws_s3_bucket.s3_moochat_ui.arn}/*"] 
+		resources = ["${aws_s3_bucket.s3_moochat_ui.arn}/*"]
 
 		principals {
 			type = "AWS"
