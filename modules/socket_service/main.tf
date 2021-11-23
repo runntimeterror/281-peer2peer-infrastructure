@@ -8,8 +8,7 @@ resource "aws_elasticache_cluster" "moochat_redis_cluster" {
   num_cache_nodes          = 1
   parameter_group_name     = "default.redis6.x"
   security_group_ids       = [
-    "sg-0b03f389b81b18623",
-    "sg-0d3fee5cb05cef4b4",
+    data.aws_security_group.default_security_group.id,
     resource.aws_security_group.sg_moochat_ecs_tasks.id,
   ]
   snapshot_retention_limit = 0
@@ -17,6 +16,10 @@ resource "aws_elasticache_cluster" "moochat_redis_cluster" {
   subnet_group_name        = "default"
   tags                     = {}
   tags_all                 = {}
+}
+
+data "aws_security_group" "default_security_group" {
+  name = "default"
 }
 
 data "aws_vpc" "default" {
